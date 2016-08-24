@@ -1,0 +1,4 @@
+sceneSetups:
+- path: Assets/GameScane/Game Scane.unity
+  isLoaded: 1
+  isActive: 1
