@@ -11,8 +11,7 @@ public class GameScreen : MonoBehaviour {
 	public static float maximumYOfScreen = 124f;
     public static float width = maximumXOfScreen - minimumXOfScreen;
     public static float height = maximumYOfScreen - minimumYOfScreen;
-
-
+    
     public static float groundZ = 0f; 
 	
 	public static float creationSpace = 10f;
@@ -87,13 +86,29 @@ public class GameScreen : MonoBehaviour {
 	
 	public static float getHeight () {
 		return maxY - minY;
-	}
+    }
 
-	public static Vector3 getRandomVec3FromLeft () {
-		return new Vector3 (minX, getRandomY (), groundZ); 
-	}
-	
-	public static Vector3 getRandomVec3FromRight () {
+    public static Vector3 getRandomVec3InAppleArea()
+    {
+        float randomX = getRandomX();
+        float randomY = getRandomY();
+        while (randomX <= appleMinX || randomX >= appleMaxX)
+        {
+            randomX = getRandomX();
+        }
+        while (randomY <= appleMinY || randomY >= appleMaxY)
+        {
+            randomY = getRandomY();
+        }
+        return new Vector3(randomX, randomY, groundZ);
+    }
+    
+    public static Vector3 getRandomVec3FromLeft()
+    {
+        return new Vector3(minX, getRandomY(), groundZ);
+    }
+
+    public static Vector3 getRandomVec3FromRight () {
 		return new Vector3 (maxX, getRandomY (), groundZ);
     }
 

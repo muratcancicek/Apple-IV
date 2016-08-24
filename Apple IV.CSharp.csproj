@@ -71,6 +71,8 @@
     <Compile Include="Assets\GameScane\Scripts\GameLogic\GameLogic.cs" />
     <Compile Include="Assets\GameScane\Scripts\GameLogic\GameScreen.cs" />
     <Compile Include="Assets\GameScane\Scripts\GameLogic\ObjectCreator.cs" />
+    <Compile Include="Assets\GameScane\Scripts\GameLogic\TargetCreator.cs" />
+    <Compile Include="Assets\GameScane\Scripts\Target.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\GUI\Fonts\Komika\Komika.txt" />

@@ -13,7 +13,7 @@ public class GameLogic : MonoBehaviour
     public static int health = 100;
     public static int level = 1;
     public static float hardnessRate = 1f; 
-    public static Vector2 scrollingVelocity;
+    public static Vector2 scrollingVelocity = new Vector2(0,-25);
     private static GameObject logic;
     
     void Start () {
@@ -53,7 +53,7 @@ public class GameLogic : MonoBehaviour
     public static void startGame()
     {
         gameOver = false;
-        score = 0;
+        score = 1020;
         Time.timeScale = 1; 
     }
 
@@ -66,6 +66,10 @@ public class GameLogic : MonoBehaviour
     public static void scored(int point)
     {
         score += point;
+        if (score >= 2000) { level = 5; }
+        else if (score >= 1000) { level = 4; }
+        else if (score >= 600) { level = 3; }
+        else if (score >= 200) { level = 2; }
     }
 
     public static void recordHighScore(string playerName)
