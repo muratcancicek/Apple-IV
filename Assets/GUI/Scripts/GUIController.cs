@@ -2,8 +2,6 @@
 using System.Collections;
 
 
-
-
 public class GUIController : MonoBehaviour {
     private GameGUI view;
     private float healthBarScaleX;
@@ -35,9 +33,11 @@ public class GUIController : MonoBehaviour {
     private void updateHealth()
     {
         view.healthText.text = "" + GameLogic.health;
+        //Vector3 healthBarScale = new Vector3(view.healthBer.transform.localScale.x, healthBarScaleX * (GameLogic.health / 100f), view.healthBer.transform.localScale.z);
         Vector3 healthBarScale = new Vector3(healthBarScaleX * (GameLogic.health / 100f), view.healthBer.transform.localScale.y, view.healthBer.transform.localScale.z);
         view.healthBer.transform.localScale = healthBarScale;
-        Vector3 healthBarPos = new Vector3(healthBarPosX - (healthBarScaleX - healthBarScale.x)*1.2f, view.healthBer.transform.position.y, view.healthBer.transform.position.z);
+        //Vector3 healthBarPos = new Vector3(view.healthBer.transform.position.x, healthBarPosX - (healthBarScaleX - healthBarScale.y) * 7.2f, view.healthBer.transform.position.z);
+        Vector3 healthBarPos = new Vector3(healthBarPosX - (healthBarScaleX - healthBarScale.x) * 1.2f, view.healthBer.transform.position.y, view.healthBer.transform.position.z);
         view.healthBer.transform.position = healthBarPos; 
     }
     public void playButtonClicked()

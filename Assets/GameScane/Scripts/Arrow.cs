@@ -64,7 +64,7 @@ public class Arrow : MonoBehaviour {
     { 
         if (collision.gameObject.tag == "Apple")
         {
-            //GameLogic.decreaseHealth(10);
+            GameLogic.decreaseHealth(10);
             Destroy(gameObject);
            //GameLogic.GameOver();
         }

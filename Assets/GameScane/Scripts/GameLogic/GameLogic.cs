@@ -8,7 +8,7 @@ public class GameLogic : MonoBehaviour
     public static bool pause = false;
     public static bool mute = false;
     public static bool gameOver = false;
-    public static bool isScrolling = true;
+    public static bool isScrolling = !true;
     public static int score = 0;
     public static int health = 100;
     public static int level = 1;

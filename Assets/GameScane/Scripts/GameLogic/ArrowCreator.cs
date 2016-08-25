@@ -10,7 +10,8 @@ public class ArrowCreator : ObjectCreator
         Vector2 vec2fromRight = GameScreen.getRandomVec3FromRight();
         Vector2 vec2fromUp = GameScreen.getRandomVec3FromUp();
         Vector2 vec2fromDown = GameScreen.getRandomVec3FromDown();
-        //createArrow(0, vec2fromDown);
+
+        if(!GameLogic.isScrolling) createArrow(0, vec2fromDown);
         createArrow(0, vec2fromUp);
         createArrow(0, vec2fromLeft);
         createArrow(0, vec2fromRight);

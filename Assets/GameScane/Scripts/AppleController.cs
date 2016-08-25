@@ -6,20 +6,26 @@ public class AppleController : MonoBehaviour
 {
     public float speed;
     public Rigidbody2D rgdBody2D;
-    private Vector2 direction;
+    public Sprite[] apples; 
+    private SpriteRenderer spriteRenderer;
     private Vector2 firstPressPos; 
-    private bool isDragging;   
+    private Vector2 direction;
+    private bool isDragging;
+    private int currentApple;
 
     // Use this for initialization
     void Start()
     {
+        currentApple = 0;
         rgdBody2D = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
      
     void FixedUpdate()
     {
         setDrction();
         move();
+        updateSprite();
     }
 
     private void setDrction()
@@ -93,5 +99,17 @@ public class AppleController : MonoBehaviour
     {
         checkBoundaries(); 
         rgdBody2D.velocity = speed * direction.normalized;
+    }
+
+    private void updateSprite()
+    {
+        int nextApple = (100 - GameLogic.health) / 20;
+        if (currentApple != nextApple)
+        {
+            currentApple = nextApple;
+            spriteRenderer.sprite = apples[currentApple];
+            Destroy(gameObject.GetComponent<PolygonCollider2D>());
+            gameObject.AddComponent<PolygonCollider2D>();
+        }
     }
 }
