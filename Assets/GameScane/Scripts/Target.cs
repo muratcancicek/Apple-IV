@@ -25,11 +25,20 @@ public class Target : MonoBehaviour {
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Apple")
+        switch (gameObject.tag)
         {
-            GameLogic.scored(10);
-            Destroy(gameObject);
+            case "Mouth":
+                GameLogic.scored(GameLogic.level * 10); break;
+            case "Golds":
+                GameLogic.scored(GameLogic.level * 50); break;
+            case "Rocket":
+                GameLogic.scored(GameLogic.level * 25, true); break;
+            case "Leaf":
+                GameLogic.scored(GameLogic.level * 10, false, true); break;
+            default:
+                break;
         }
+        Destroy(gameObject);
     }
 
 }

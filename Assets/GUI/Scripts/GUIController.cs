@@ -22,11 +22,8 @@ public class GUIController : MonoBehaviour {
             view.menuButtonText.text = GameLogic.pause ? "X" : "MENU";
             //view.muteButonText.text = GameLogic.mute ? "UNMUTE" : "MUTE";
             view.scoreText.text = "" + GameLogic.score;
+            view.scoreToSaveText.text = "" + GameLogic.score;
             updateHealth();
-        }
-        if (GameLogic.health <= 0 && GameLogic.gameOver)
-        {
-            view.showGameOver();
         }
     }
 
@@ -51,7 +48,7 @@ public class GUIController : MonoBehaviour {
         view.showGameInterface();
 }
 
-    public void hotToPlayButtonClicked()
+    public void howToPlayButtonClicked()
     {
         view.showHowToPlay();
     }
@@ -65,7 +62,7 @@ public class GUIController : MonoBehaviour {
     {
         view.showAboutUs();
     }
-
+     
     public void okButtonClicked()
     {
         view.showMainMenu();
@@ -84,10 +81,10 @@ public class GUIController : MonoBehaviour {
      
     public void highScoreNameEntered() 
     {
-        GameLogic.recordHighScore(view.highScoreNameText.text);
-        view.highScoreNameText.text = "";
+        //GameLogic.recordHighScore(view.highScoreNameText.text);
+        //view.highScoreNameText.text = "";
+        GameLogic.health = 10;
         view.showMainMenu();
-
     }
 
 }

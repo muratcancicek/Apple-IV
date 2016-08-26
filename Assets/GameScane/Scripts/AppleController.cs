@@ -4,19 +4,22 @@ using System;
 
 public class AppleController : MonoBehaviour
 {
-    public float speed;
+    public float speed = 50;
+    public GameObject shield;
     public Rigidbody2D rgdBody2D;
+    public Vector2 direction;
     public Sprite[] apples; 
     private SpriteRenderer spriteRenderer;
     private Vector2 firstPressPos; 
-    private Vector2 direction;
-    private bool isDragging;
+    public bool isDragging;
     private int currentApple;
-
+    private float rocketSpeed;
+    
     // Use this for initialization
     void Start()
     {
         currentApple = 0;
+        rocketSpeed = speed * 3;
         rgdBody2D = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
@@ -35,6 +38,7 @@ public class AppleController : MonoBehaviour
         else
             getMouseInput(); 
     }
+
     private void getTouchInput()
     {
         Touch t = Input.touches[0];
@@ -62,7 +66,7 @@ public class AppleController : MonoBehaviour
             firstPressPos = Input.mousePosition;
             isDragging = true;
         }
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) || GameLogic.gameOver)
         {  
             isDragging = false; 
         }
@@ -98,7 +102,14 @@ public class AppleController : MonoBehaviour
     private void move()
     {
         checkBoundaries(); 
-        rgdBody2D.velocity = speed * direction.normalized;
+        if (GameLogic.isRocketing)
+        {
+            rgdBody2D.velocity = rocketSpeed * direction.normalized;
+        }
+        else
+        {
+            rgdBody2D.velocity = speed * direction.normalized;
+        }
     }
 
     private void updateSprite()
@@ -112,4 +123,5 @@ public class AppleController : MonoBehaviour
             gameObject.AddComponent<PolygonCollider2D>();
         }
     }
+
 }

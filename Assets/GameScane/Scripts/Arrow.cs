@@ -4,6 +4,7 @@ using System;
 
 public class Arrow : MonoBehaviour { 
 	public float speed = 30f;
+    public int type;
 	public Vector2 velocity;
     private Rigidbody2D rgdBody2D;
 
@@ -15,7 +16,7 @@ public class Arrow : MonoBehaviour {
 
     private void setSize()
     {
-        gameObject.transform.localScale = gameObject.transform.localScale * GameLogic.hardnessRate;
+        gameObject.transform.localScale = gameObject.transform.localScale * GameLogic.sizeRate;
     }
 
     private void setVelocity()
@@ -57,17 +58,29 @@ public class Arrow : MonoBehaviour {
     private void eraseItself()
     {
         Destroy(gameObject);
-    }
+    } 
     
     
     public void OnCollisionEnter2D(Collision2D collision)
     { 
         if (collision.gameObject.tag == "Apple")
         {
-            GameLogic.decreaseHealth(10);
-            Destroy(gameObject);
-           //GameLogic.GameOver();
+            switch (type)
+            {
+                case 0: GameLogic.decreaseHealth(5); break;
+                case 1: GameLogic.decreaseHealth(10); break;
+                case 2: GameLogic.decreaseHealth(10); break;
+                case 3: GameLogic.decreaseHealth(10); FindObjectOfType<AppleController>().speed /= 2; break;
+                default:
+                    break;
+            }
         }
+        if(type == 4) GameLogic.health = 100;
+        Destroy(gameObject);
     }
-        
+     
+    public void OnDestroy()
+    {
+        ArrowCreator.activeTypes[type] = false; 
+    }   
 }

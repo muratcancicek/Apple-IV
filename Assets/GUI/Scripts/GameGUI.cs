@@ -8,6 +8,7 @@ public class GameGUI : MonoBehaviour {
     public Text muteButtonText;
     public Text playButtonText;
     public Text scoreText;
+    public Text scoreToSaveText;
     public Text healthText;
     public Text highScoreNameText;
     public Text[] rankings = new Text[5];
@@ -25,7 +26,6 @@ public class GameGUI : MonoBehaviour {
     void Start ()
     {
         setCurrentPanel(MAIN_MENU);
-        
     }
 
     private void showPanel(Canvas canvas)
@@ -34,22 +34,22 @@ public class GameGUI : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         playButtonText.text = GameLogic.pause ? "RESUME" : "PLAY";
-        background.transform.localScale = new Vector3(GameLogic.pause || GameLogic.gameOver ? 1000 : 0, 1000);
     }
 
     
     public void showMainMenu()
     { 
-        setCurrentPanel(MAIN_MENU);
+        setCurrentPanel(MAIN_MENU); 
     }
 	
 	public void setCurrentPanel(Canvas canvas) {
         if (CURRENT_CANVAS != null) 
              CURRENT_CANVAS.enabled = false;
         CURRENT_CANVAS = canvas;
+        background.transform.localScale = new Vector3(CURRENT_CANVAS != GAME_INTERFACE ? 1000 : 0, 1000);
         showPanel(CURRENT_CANVAS);
 	}
     

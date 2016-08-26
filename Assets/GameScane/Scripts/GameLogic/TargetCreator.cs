@@ -5,7 +5,12 @@ using System;
 public class TargetCreator : ObjectCreator
 {
     public GameObject[] targets;
-
+    
+    void Start()
+    {
+        creationCycle = 0;
+        counter = creationCycle;
+    }
     protected override void createObject()
     {
         Vector2 vec2 = GameScreen.getRandomVec3InAppleArea();
@@ -13,17 +18,12 @@ public class TargetCreator : ObjectCreator
         {
             createTarget(vec2);
         }
-
-        if (counter++ > 10)
-        {
-            counter = 0;
-        }
     }
 
     private void createTarget(Vector2 vec)
     {
         int i = 0;
-        float chance = UnityEngine.Random.Range(0, 100);
+        float chance = UnityEngine.Random.Range(0, 100) * GameLogic.chanceRate;
         switch (GameLogic.level)
         {
             case 1:
@@ -33,18 +33,8 @@ public class TargetCreator : ObjectCreator
             case 3:
                 i = chance > 70 ? (chance > 90 ? 2 : 1) : 0; break;
             default:
-                i = chance > 50 ? (chance > 75 ? (chance > 90 ? 3 : 2) : 1) : 0; break;
+                i = chance > 50 ? (chance > 75 ? (chance > 90 * GameLogic.chanceRate ? 3 : 2) : 1) : 0; break;
         }
         Instantiate(targets[i], vec, Quaternion.identity);
     }
-
-    // Use this for initialization
-    void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 }
