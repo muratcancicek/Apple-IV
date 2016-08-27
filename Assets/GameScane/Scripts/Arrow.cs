@@ -70,7 +70,7 @@ public class Arrow : MonoBehaviour {
                 case 0: GameLogic.decreaseHealth(5); break;
                 case 1: GameLogic.decreaseHealth(10); break;
                 case 2: GameLogic.decreaseHealth(10); break;
-                case 3: GameLogic.decreaseHealth(10); FindObjectOfType<AppleController>().speed /= 2; break;
+                case 3: GameLogic.decreaseHealth(10); GameLogic.setState("Poisoned"); break;
                 default:
                     break;
             }

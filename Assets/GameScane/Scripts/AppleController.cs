@@ -5,6 +5,7 @@ using System;
 public class AppleController : MonoBehaviour
 {
     public float speed = 50;
+    public float defaultSpeed = 50;
     public GameObject shield;
     public Rigidbody2D rgdBody2D;
     public Vector2 direction;
@@ -102,9 +103,13 @@ public class AppleController : MonoBehaviour
     private void move()
     {
         checkBoundaries(); 
-        if (GameLogic.isRocketing)
+        if (GameLogic.isState("Rocketing"))
         {
             rgdBody2D.velocity = rocketSpeed * direction.normalized;
+        }
+        else if (GameLogic.isState("Poisoned"))
+        {
+            rgdBody2D.velocity = speed/2 * direction.normalized;
         }
         else
         {

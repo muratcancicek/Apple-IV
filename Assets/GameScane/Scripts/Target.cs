@@ -32,9 +32,9 @@ public class Target : MonoBehaviour {
             case "Golds":
                 GameLogic.scored(GameLogic.level * 50); break;
             case "Rocket":
-                GameLogic.scored(GameLogic.level * 25, true); break;
+                GameLogic.scored(GameLogic.level * 25); GameLogic.setState("Rocketing"); break;
             case "Leaf":
-                GameLogic.scored(GameLogic.level * 10, false, true); break;
+                GameLogic.scored(GameLogic.level * 10); GameLogic.setState("Shielding"); break;
             default:
                 break;
         }

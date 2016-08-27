@@ -1,7 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System;
-using System.Collections.Generic;
 
 public class GameLogic : MonoBehaviour
 {
@@ -9,9 +6,6 @@ public class GameLogic : MonoBehaviour
     public static bool mute = false;
     public static bool gameOver = false;
     public static bool isScrolling = !true;
-    public static bool[] activeStates =  new bool[3];
-    public static bool isShielding = false;
-    public static bool isRocketing = false;
     public static int score = 0;
     public static int health = 100;
     public static int level = 1;
@@ -21,6 +15,7 @@ public class GameLogic : MonoBehaviour
     public static float chanceRate = 1f;
     public static float sizeRate = 1f;
     public static Vector2 scrollingVelocity = new Vector2(0,-25);
+    private static bool[] activeStates =  new bool[3];
     private static GameObject logic;
     private static float stateCycle = 10;
     private static float[] stateCounters = new float[3];
@@ -58,25 +53,6 @@ public class GameLogic : MonoBehaviour
                 activeStates[i] = false;
             }
         }
-        
-        //if (rocketingCounter >= 0)
-        //{
-        //    rocketingCounter -= Time.deltaTime;
-        //}
-        //else
-        //{
-        //    isRocketing = false;
-        //}
-
-        //if (shieldingCounter >= 0)
-        //{
-        //    shieldingCounter -= Time.deltaTime;
-        //}
-        //else
-        //{
-        //    isShielding = false;
-        //    apple.shield.gameObject.SetActive(false);
-        //}
     }
 
     public static void setPaused(bool paused)
@@ -117,8 +93,8 @@ public class GameLogic : MonoBehaviour
     public static void resetGame()
     {
         gameOver = false;
-        score = 0;
-        health = 10;
+        score = 1000;
+        health = 100;
         apple.gameObject.transform.position = new Vector3(GameScreen.centralX, GameScreen.centralY, GameScreen.groundZ);
         Arrow[] arrows = FindObjectsOfType<Arrow>();
         foreach (Arrow arrow in arrows)
@@ -136,12 +112,10 @@ public class GameLogic : MonoBehaviour
         } 
     }
 
-    public static void scored(int point, bool isRocketing = false, bool isShielding = false)
+    public static void scored(int point)
     {
         score += point;
         updateLevel();
-        bool[] states = { isRocketing, isShielding };
-        updateState(states);
     }
 
     public static void updateLevel()
@@ -152,41 +126,36 @@ public class GameLogic : MonoBehaviour
         else if (score >= 200) { level = 2; }
     }
 
-    private static void updateState(bool[] states)
+    public static bool isState(string state)
     {
-        bool[] currentStates = {states[0], states[1], activeStates[2] };
-        if (!activeStates[1] && currentStates[1])
-            apple.shield.gameObject.SetActive(true);
-        for (int i = 0; i < currentStates.Length; i++)
+        switch (state)
         {
-            if (currentStates[i])
-            {
-                activeStates[i] = currentStates[i];
-                stateCounters[i] = stateCycle * hardnessRate;
-            }
+            case "Rocketing": return activeStates[0];
+            case "Shielding": return activeStates[1];
+            case "Poisoned": return activeStates[2];
+            case "Crazy": return activeStates[3];
+            default:
+                return false;
         }
-        //if (isRocketing)
-        //{
-        //    GameLogic.isRocketing = true;
-        //    GameLogic.rocketingCounter = 10 * hardnessRate;
-        //}
-        //if (isShielding)
-        //{
-        //    if (!GameLogic.isShielding)
-        //    {
-        //        apple.shield.gameObject.SetActive(true);
-        //    }
-        //    GameLogic.isShielding = true;
-        //    GameLogic.shieldingCounter = 10 * hardnessRate;
-        //}
     }
 
-    private void updateShield()
+    public static void setState(string state)
     {
-        //shield.transform.localScale = isShielding ? new Vector3(1.459055f, 1.497772f, 1) : Vector3.zero;
-        //Destroy(shield.GetComponent<PolygonCollider2D>());
-        //shield.AddComponent<PolygonCollider2D>();
-
+        switch (state)
+        {
+            case "Rocketing": activeStates[0] = true; break;
+            case "Shielding":
+                if (!activeStates[1])
+                    apple.shield.gameObject.SetActive(true);
+                activeStates[1] = true; break;
+            case "Poisoned": activeStates[2] = true; break;
+            case "Crazy": activeStates[3] = true; break;
+            default:
+                break;
+        }
+        for (int i = 0; i < activeStates.Length; i++)
+            if (activeStates[i])
+                stateCounters[i] = stateCycle * hardnessRate;
     }
 
     public static void recordHighScore(string playerName)
