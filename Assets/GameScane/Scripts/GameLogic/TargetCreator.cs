@@ -14,6 +14,10 @@ public class TargetCreator : ObjectCreator
     protected override void createObject()
     {
         Vector2 vec2 = GameScreen.getRandomVec3InAppleArea();
+        while ((GameScreen.getPositionOfCharacter() - vec2).magnitude < 20)
+        {
+            vec2 = GameScreen.getRandomVec3InAppleArea();
+        }
         if (FindObjectsOfType<Target>().Length == 0)
         {
             createTarget(vec2);

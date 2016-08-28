@@ -12,7 +12,7 @@ public class AppleController : MonoBehaviour
     public Sprite[] apples; 
     private SpriteRenderer spriteRenderer;
     private Vector2 firstPressPos; 
-    public bool isDragging;
+    private bool isDragging;
     private int currentApple;
     private float rocketSpeed;
     
@@ -51,6 +51,10 @@ public class AppleController : MonoBehaviour
         else if (t.phase == TouchPhase.Ended)
         {
             isDragging = true;
+        }
+        if (GameLogic.gameOver)
+        {
+            isDragging = false;
         }
         if (isDragging)
         { 
@@ -103,13 +107,14 @@ public class AppleController : MonoBehaviour
     private void move()
     {
         checkBoundaries(); 
-        if (GameLogic.isState("Rocketing"))
-        {
-            rgdBody2D.velocity = rocketSpeed * direction.normalized;
-        }
-        else if (GameLogic.isState("Poisoned"))
+        if (GameLogic.isState("Poisoned"))
         {
             rgdBody2D.velocity = speed/2 * direction.normalized;
+
+        }
+        else if (GameLogic.isState("Rocketing"))
+        {
+            rgdBody2D.velocity = rocketSpeed * direction.normalized;
         }
         else
         {
@@ -119,7 +124,7 @@ public class AppleController : MonoBehaviour
 
     private void updateSprite()
     {
-        int nextApple = (100 - GameLogic.health) / 20;
+        int nextApple = GameLogic.isState("Crazy") ? (apples.Length-1) : (100 - GameLogic.health) / 20;
         if (currentApple != nextApple)
         {
             currentApple = nextApple;

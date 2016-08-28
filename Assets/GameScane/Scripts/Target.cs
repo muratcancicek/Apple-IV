@@ -28,9 +28,9 @@ public class Target : MonoBehaviour {
         switch (gameObject.tag)
         {
             case "Mouth":
-                GameLogic.scored(GameLogic.level * 10); break;
+                GameLogic.scored(GameLogic.level * 10);break;
             case "Golds":
-                GameLogic.scored(GameLogic.level * 50); break;
+                GameLogic.scored(GameLogic.level * 50); GameLogic.setState("Crazy"); break;
             case "Rocket":
                 GameLogic.scored(GameLogic.level * 25); GameLogic.setState("Rocketing"); break;
             case "Leaf":
