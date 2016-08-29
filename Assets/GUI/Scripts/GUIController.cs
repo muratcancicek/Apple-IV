@@ -71,6 +71,7 @@ public class GUIController : MonoBehaviour {
     public void pauseButtonClicked()
     {
         GameLogic.setPaused(!GameLogic.pause);
+        Debug.Log(GameLogic.pause);
         view.showMainMenu();
     }
 

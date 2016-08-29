@@ -50,7 +50,7 @@ public class AppleController : MonoBehaviour
         }
         else if (t.phase == TouchPhase.Ended)
         {
-            isDragging = true;
+            isDragging = false;
         }
         if (GameLogic.gameOver)
         {
@@ -106,10 +106,15 @@ public class AppleController : MonoBehaviour
 
     private void move()
     {
-        checkBoundaries(); 
-        if (GameLogic.isState("Poisoned"))
+        checkBoundaries();
+        if (GameLogic.pause || GameLogic.gameOver)
         {
-            rgdBody2D.velocity = speed/2 * direction.normalized;
+            rgdBody2D.velocity = Vector2.zero;
+            direction = Vector2.zero;
+        }
+        else if (GameLogic.isState("Poisoned"))
+        {
+            rgdBody2D.velocity = speed / 2 * direction.normalized;
 
         }
         else if (GameLogic.isState("Rocketing"))

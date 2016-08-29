@@ -34,7 +34,7 @@ public class GameGUI : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         playButtonText.text = GameLogic.pause ? "RESUME" : "PLAY";
     }

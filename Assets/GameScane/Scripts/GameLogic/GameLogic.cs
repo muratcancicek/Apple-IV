@@ -40,7 +40,6 @@ public class GameLogic : MonoBehaviour
     private void checkState()
     {
         if (isState("Shielding") && stateCounters[1] < 0) apple.shield.gameObject.SetActive(false);
-        Debug.Log(""+stateCounters[0]+" "+activeStates[0]);
         for (int i = 0; i < activeStates.Length; i++)
         {
             if (stateCounters[i] >= 0)
