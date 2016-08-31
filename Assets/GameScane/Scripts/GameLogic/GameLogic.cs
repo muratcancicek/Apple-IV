@@ -91,9 +91,9 @@ public class GameLogic : MonoBehaviour
     public static void resetGame()
     {
         gameOver = false;
-        score = 0;
+        score = 1000;
         health = 100;
-        apple.gameObject.transform.position = new Vector3(GameScreen.centralX, GameScreen.centralY, GameScreen.groundZ);
+        apple.resetApple();
         Arrow[] arrows = FindObjectsOfType<Arrow>();
         foreach (Arrow arrow in arrows)
         {
@@ -118,10 +118,10 @@ public class GameLogic : MonoBehaviour
 
     public static void updateLevel()
     {
-        if (score >= 2000) { level = 5; }
-        else if (score >= 1000) { level = 4; }
-        else if (score >= 600) { level = 3; }
-        else if (score >= 200) { level = 2; }
+        if (score >= 1000) { level = 5; }
+        else if (score >= 500) { level = 4; }
+        else if (score >= 300) { level = 3; }
+        else if (score >= 100) { level = 2; }
     }
 
     public static bool isState(string state)

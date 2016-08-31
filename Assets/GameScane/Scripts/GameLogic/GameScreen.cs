@@ -5,8 +5,8 @@ using System;
 public class GameScreen : MonoBehaviour {
     public Camera mainCamera;
     public static Vector3 screenVector;
-	public static float minimumXOfScreen = 0f; 
-	public static float maximumXOfScreen = 70f; 
+	public static float minimumXOfScreen = 53f; 
+	public static float maximumXOfScreen = 212f; 
 	public static float minimumYOfScreen = 0f; 
 	public static float maximumYOfScreen = 124f;
     public static float width = maximumXOfScreen - minimumXOfScreen;
@@ -46,7 +46,6 @@ public class GameScreen : MonoBehaviour {
 
     void Start()
     {
-        
     }
 
     void FixedUpdate()
@@ -132,6 +131,6 @@ public class GameScreen : MonoBehaviour {
 
     
     public static Vector2 getPositionOfCharacter () {
-		return FindObjectOfType <AppleController>().rgdBody2D.position;
+		return FindObjectOfType <AppleController>().gameObject.transform.position;
 	}
 }

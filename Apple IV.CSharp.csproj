@@ -60,22 +60,31 @@
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
+    <Reference Include="simple-firebase-csharp">
+      <HintPath>Assets\SimpleFirebaseUnity\Plugins\simple-firebase-csharp.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\GUI\Scripts\DataManager.cs" />
+    <Compile Include="Assets\GUI\Scripts\FirebaseServer.cs" />
     <Compile Include="Assets\GUI\Scripts\GUIController.cs" />
     <Compile Include="Assets\GUI\Scripts\GameGUI.cs" />
     <Compile Include="Assets\GameScane\Scripts\AppleController.cs" />
     <Compile Include="Assets\GameScane\Scripts\Arrow.cs" />
+    <Compile Include="Assets\GameScane\Scripts\Controller.cs" />
     <Compile Include="Assets\GameScane\Scripts\GameLogic\ArrowCreator.cs" />
     <Compile Include="Assets\GameScane\Scripts\GameLogic\GameLogic.cs" />
     <Compile Include="Assets\GameScane\Scripts\GameLogic\GameScreen.cs" />
     <Compile Include="Assets\GameScane\Scripts\GameLogic\ObjectCreator.cs" />
     <Compile Include="Assets\GameScane\Scripts\GameLogic\TargetCreator.cs" />
     <Compile Include="Assets\GameScane\Scripts\Target.cs" />
+    <Compile Include="Assets\SimpleFirebaseUnity\Sample\AutoRotate.cs" />
+    <Compile Include="Assets\SimpleFirebaseUnity\Sample\MoveControl.cs" />
+    <Compile Include="Assets\SimpleFirebaseUnity\Sample\SampleScript.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\GUI\Fonts\Komika\Komika.txt" />
+    <None Include="Assets\SimpleFirebaseUnity\Plugins\Android\AndroidManifest.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

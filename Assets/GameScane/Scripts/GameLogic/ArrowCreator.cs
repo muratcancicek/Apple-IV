@@ -35,11 +35,6 @@ public class ArrowCreator : ObjectCreator
         float speed = arrowInstance.speed;
         arrowInstance.velocity = Vector2.left * speed;
         arrowInstance.type = type;
-        if (vec.x < GameScreen.minimumXOfScreen)
-        {
-            arrow.GetComponent<SpriteRenderer>().flipX = !arrow.GetComponent<SpriteRenderer>().flipX;
-            arrow.GetComponent<Arrow>().velocity = Vector2.right * speed;
-        }
          if (vec.y > GameScreen.maximumYOfScreen)
         {
             arrow.transform.Rotate(0, 0, 90, 0);
@@ -49,6 +44,11 @@ public class ArrowCreator : ObjectCreator
         {
             arrow.transform.Rotate(0, 0, -90, 0); 
             arrow.GetComponent<Arrow>().velocity = Vector2.up * speed;
+        }
+        if (vec.x < GameScreen.minimumXOfScreen && arrowInstance.velocity == Vector2.left * speed)
+        {
+            arrow.GetComponent<SpriteRenderer>().flipX = !arrow.GetComponent<SpriteRenderer>().flipX;
+            arrow.GetComponent<Arrow>().velocity = Vector2.right * speed;
         }
     }
 
