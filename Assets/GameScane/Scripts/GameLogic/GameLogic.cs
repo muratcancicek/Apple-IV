@@ -2,7 +2,9 @@
 
 public class GameLogic : MonoBehaviour
 {
+    public static bool onMobile = false;
     public static bool pause = false;
+    public static bool isDebugging = false; 
     public static bool mute = false;
     public static bool gameOver = false;
     public static bool isScrolling = !true;
@@ -14,6 +16,7 @@ public class GameLogic : MonoBehaviour
     public static float maxSizeRate = 2f;
     public static float chanceRate = 1f;
     public static float sizeRate = 1f;
+    public static string debugText;
     public static Vector2 scrollingVelocity = new Vector2(0,-25);
     private static bool[] activeStates =  new bool[4];
     private static GameObject logic;
@@ -28,7 +31,9 @@ public class GameLogic : MonoBehaviour
         Time.timeScale = 0;
         Physics2D.gravity =  Vector2.zero; 
         apple = FindObjectOfType<AppleController>();
-	}
+        onMobile = Application.platform == RuntimePlatform.IPhonePlayer || Application.platform == RuntimePlatform.Android;
+
+    }
      
     void FixedUpdate () {
         hardnessRate = 1f + (score / 7500f);
@@ -166,12 +171,19 @@ public class GameLogic : MonoBehaviour
         health = 100;
         DataManager.recordPlayer(score, playerName); 
     }
-    
+
     public static void decreaseHealth(int damage)
     {
-        if(health > 0)
+        if (health > 0)
             health -= damage;
         if (health <= 0)
             GameOver();
+    }
+
+    public static void debugLog(string log)
+    {
+        isDebugging = true;
+        debugText = log;
+        Debug.Log(log);
     }
 }

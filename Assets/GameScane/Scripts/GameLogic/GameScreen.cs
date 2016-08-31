@@ -51,7 +51,7 @@ public class GameScreen : MonoBehaviour {
     void FixedUpdate()
     {
 
-        if (Application.platform == RuntimePlatform.IPhonePlayer || Application.platform == RuntimePlatform.Android)
+        if (GameLogic.onMobile)
         {
             Touch touch = Input.touches[0];
             inputX = mainCamera.ScreenToWorldPoint(touch.position).x;
@@ -129,8 +129,33 @@ public class GameScreen : MonoBehaviour {
 		return UnityEngine.Random.Range (minY, maxY);
     }
 
-    
-    public static Vector2 getPositionOfCharacter () {
-		return FindObjectOfType <AppleController>().gameObject.transform.position;
-	}
+    public static Vector2 getPositionOfCharacter()
+    {
+        return FindObjectOfType<AppleController>().gameObject.transform.position;
+    }
+
+    public static Vector2 worldToScreenPoint(MonoBehaviour object1)
+    {
+        return FindObjectOfType<GameScreen>().mainCamera.WorldToScreenPoint(object1.transform.position);
+    }
+
+    public static Vector2 worldToScreenPoint(Vector3 position)
+    {
+        return FindObjectOfType<GameScreen>().mainCamera.WorldToScreenPoint(position);
+    }
+
+    public static float screenDistance(MonoBehaviour object1, MonoBehaviour object2)
+    {
+        return (worldToScreenPoint(object1) - worldToScreenPoint(object2)).magnitude;
+    }
+
+    public static float screenDistance(Vector3 position1, Vector3 position2)
+    {
+        return (worldToScreenPoint(position1) - worldToScreenPoint(position2)).magnitude;
+    }
+
+    public static float distance(Vector3 position1, Vector3 position2)
+    {
+        return (position1 - position2).magnitude;
+    }
 }

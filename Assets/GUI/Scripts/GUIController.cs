@@ -29,7 +29,7 @@ public class GUIController : MonoBehaviour {
 
     private void updateHealth()
     {
-        view.healthText.text = "" + GameLogic.health;
+        view.healthText.text = GameLogic.isDebugging ? GameLogic.debugText : ("" + GameLogic.health);
         //Vector3 healthBarScale = new Vector3(view.healthBer.transform.localScale.x, healthBarScaleX * (GameLogic.health / 100f), view.healthBer.transform.localScale.z);
         Vector3 healthBarScale = new Vector3(healthBarScaleX * (GameLogic.health / 100f), view.healthBer.transform.localScale.y, view.healthBer.transform.localScale.z);
         view.healthBer.transform.localScale = healthBarScale;
