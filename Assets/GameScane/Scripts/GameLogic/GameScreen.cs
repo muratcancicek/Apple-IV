@@ -54,8 +54,16 @@ public class GameScreen : MonoBehaviour {
         if (GameLogic.onMobile)
         {
             Touch touch = Input.touches[0];
-            inputX = mainCamera.ScreenToWorldPoint(touch.position).x;
-            inputY = mainCamera.ScreenToWorldPoint(touch.position).y;
+             if (touch.phase == TouchPhase.Ended)
+            {
+                inputX = centralX;
+                inputY = centralY;
+            }
+            else
+            {
+                inputX = mainCamera.ScreenToWorldPoint(touch.position).x;
+                inputY = mainCamera.ScreenToWorldPoint(touch.position).y;
+            }
         }
         else
         {

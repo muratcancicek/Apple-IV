@@ -7,12 +7,14 @@ public class AppleController : Controller
     public Sprite[] apples;
     private int currentApple;
     public GameObject shield;
+    protected Rigidbody2D rgdBody2D;
     private float rocketSpeed;
     private SpriteRenderer spriteRenderer;
 
     // Use this for initialization
     new void Start()
     {
+        rgdBody2D = GetComponent<Rigidbody2D>();
         base.Start();
         rocketSpeed = speed * 3;
         isJoystick = false;
@@ -21,13 +23,14 @@ public class AppleController : Controller
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    new void Update()
+    new void FixedUpdate()
     {
         direction = isDragging ? controller.getDirection() : Vector2.zero;
         checkAppleBoundaries();
         move();
         updateSprite();
     }
+
     private void checkAppleBoundaries()
     {
         if (rgdBody2D.position.x < GameScreen.appleMinX && direction.x < 0)
@@ -57,16 +60,16 @@ public class AppleController : Controller
         }
         else if (GameLogic.isState("Poisoned"))
         {
-            rgdBody2D.velocity = speed / 2 * direction.normalized;
+            rgdBody2D.velocity = speed / 2 * direction;
 
         }
         else if (GameLogic.isState("Rocketing"))
         {
-            rgdBody2D.velocity = rocketSpeed * direction.normalized;
+            rgdBody2D.velocity = rocketSpeed * direction;
         }
         else
         {
-            rgdBody2D.velocity = speed * direction.normalized;
+            rgdBody2D.velocity = speed * direction;
         }
     }
 
