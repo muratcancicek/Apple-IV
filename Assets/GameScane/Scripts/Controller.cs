@@ -28,14 +28,17 @@ public class Controller : MonoBehaviour
         }
     }
 
-    // Update is called once per frame"" + isDragging + " " + isInputIn + ((Vector2)nextPosition - fixedPosition)
-    protected void FixedUpdate ()
+    // Update is called once per frame " " + fixedPosition"" + isDragging + " " + isInputIn + ((Vector2)nextPosition - fixedPosition)isDragging + " " + isInputIn + " " + (fixedPosition - (Vector2)gameObject.transform.position)
+    protected void Update ()
     {
-        GameLogic.debugLog(" " + isDragging + " " + (fixedPosition - (Vector2)gameObject.transform.position));
-        //GameLogic.debugLog(" " + fixedPosition);
+        //GameLogic.debugLog("" + isDragging + " " + isInputIn);
         isInputIn = isDragging ? true : GameScreen.distance(fixedPosition, GameScreen.inputPos) < radius;
+    //GameLogic.debugLog(" " + nextPosition + " " + Time.deltaTime);
+        
         setDrction();
         moveController();
+        step = speed * Time.deltaTime;
+        gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, nextPosition, step); 
     }
 
     private void setDrction()
@@ -75,20 +78,25 @@ public class Controller : MonoBehaviour
     private void moveController()
     {
         step = speed * Time.deltaTime;
-        setNextPosition();
-        gameObject.transform.position = Vector3.MoveTowards(transform.position, isDragging ? nextPosition : new Vector3(fixedPosition.x,fixedPosition.y,0f), step);
+        setNextPosition(); //gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, isDragging ? nextPosition : new Vector3(fixedPosition.x,fixedPosition.y,0f), step);
     }
 
     private void setNextPosition()
     {
+        if (gameObject.transform.position != nextPosition && (Vector2)nextPosition == fixedPosition)
+        {
+            return;
+        }
         if (!isDragging)
         {
-            //GameLogic.debugLog(" " + isDragging + " " + GameScreen.distance(fixedPosition, GameScreen.inputPos));
             nextPosition = fixedPosition;
-        
+            while (gameObject.transform.position != nextPosition && GameLogic.onMobile)
+            {
+                gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, nextPosition, step);
+            }
         }
-        //else if (direction.magnitude < radius)
-        //    nextPosition = GameScreen.inputPos;
+        else if (direction.magnitude < radius)
+            nextPosition = GameScreen.inputPos;
         else
         {
             float rate = direction.magnitude / radius;

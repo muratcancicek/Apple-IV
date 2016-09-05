@@ -96,8 +96,8 @@ public class GameLogic : MonoBehaviour
     public static void resetGame()
     {
         gameOver = false;
-        score = 1000;
-        health = 100;
+        score = 0;
+        health = 10;
         apple.resetApple();
         Arrow[] arrows = FindObjectsOfType<Arrow>();
         foreach (Arrow arrow in arrows)

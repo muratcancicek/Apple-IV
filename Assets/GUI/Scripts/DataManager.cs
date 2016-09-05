@@ -5,12 +5,13 @@ using System;
 public class DataManager : MonoBehaviour
 {
     public static ArrayList rankings = new ArrayList(5);
-    private static int maxRanking = 5; 
-
+    private static int maxRanking = 5;
+    private static FirebaseManager firebaseManager; 
     // Use this for initialization
     void Start () {
         GameGUI view = gameObject.GetComponent<GameGUI>();
         maxRanking = view.rankings.Length;
+        firebaseManager = gameObject.GetComponent<FirebaseManager>();
         loadHighScores();
     }
 
@@ -28,15 +29,9 @@ public class DataManager : MonoBehaviour
         int playerScore = PlayerPrefs.GetInt("playerScore" + index);
         string playerName = PlayerPrefs.GetString("playerName" + index);
         playerScore = playerScore == default(int) ? 0 : playerScore;
-        if (playerName != "")
-        {
-            rankings.Add(new Player(playerScore, playerName));
-        }
-        else
-        {
-            rankings.Add(new Player(0, "Nobody was here"));  
-        }
-        
+        rankings.Add(new Player(playerScore, playerName != "" ? playerName : "Nobody was here"));
+        //rankings.Add(firebaseManager.list[index]);
+
     }
 	
 	// Update is called once per frame
@@ -72,7 +67,7 @@ public class DataManager : MonoBehaviour
 
     public static void recordPlayer(int score, string playerName)
     {
-        if (score > getPlayer(maxRanking).score)
+        if (score > getPlayer(maxRanking-1).score)
         {
             rankings.Add(new Player(score, playerName));
         }
@@ -84,10 +79,20 @@ public class DataManager : MonoBehaviour
         string[] playerTexts = new string[maxRanking];
         for (int ranking = 0; ranking < maxRanking; ranking++)
         {
-            playerTexts[ranking] = "" + (ranking+1) + ". " + getPlayer(ranking).name + "   " + getPlayer(ranking).score;
+            string r = "" + (ranking + 1) + ". ";
+            string name = getPlayer(ranking).name;
+            string score = " "+getPlayer(ranking).score;
+            int spaceLength = 35 - (r.Length + name.Length + score.Length);
+            string space = "";
+            for (int i = 0; i < spaceLength; i++)
+            {
+                space += " ";
+            }
+            playerTexts[ranking] = r + name + space + score;
         }
         return playerTexts;
     }
+
     public class Player : System.IComparable
     { 
         public int score;

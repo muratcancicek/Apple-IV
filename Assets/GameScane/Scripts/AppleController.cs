@@ -23,7 +23,7 @@ public class AppleController : Controller
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    new void FixedUpdate()
+    new void Update()
     {
         direction = isDragging ? controller.getDirection() : Vector2.zero;
         checkAppleBoundaries();

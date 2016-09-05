@@ -82,10 +82,12 @@ public class GUIController : MonoBehaviour {
      
     public void highScoreNameEntered() 
     {
-        //GameLogic.recordHighScore(view.highScoreNameText.text);
-        //view.highScoreNameText.text = "";
-        GameLogic.health = 10;
+        if (view.highScoreNameText.text.Length >= 3)
+        {
+        GameLogic.recordHighScore(view.highScoreNameText.text);
+        view.highScoreNameText.text = "";
         view.showMainMenu();
+        }
     }
 
 }

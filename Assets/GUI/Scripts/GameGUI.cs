@@ -25,6 +25,10 @@ public class GameGUI : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
+        for (int i = 0; i < 5; i++)
+        {
+            rankings[i] = GameObject.Find("HighScorePlayer" + i).GetComponent<Text>();
+        }
         setCurrentPanel(MAIN_MENU);
     }
 
@@ -69,7 +73,7 @@ public class GameGUI : MonoBehaviour {
     }
 	
 	public void showHighScores() {
-        //showHighScorePlayers();
+        showHighScorePlayers();
         setCurrentPanel(HIGHSCORES);
     }
 

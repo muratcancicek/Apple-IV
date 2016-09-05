@@ -46,6 +46,7 @@ public class GameScreen : MonoBehaviour {
 
     void Start()
     {
+
     }
 
     void FixedUpdate()
