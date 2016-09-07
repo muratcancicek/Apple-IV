@@ -113,8 +113,8 @@ public class QueryEditorImpl : IQuery {
 	private static extern void _FirebaseRemoveValueChange(IntPtr stub);
 
 	[DllImport("FirebaseProxy")]
-	private static extern void _FirebaseRemoveChildEvents(IntPtr stub);
 
+	private static extern void _FirebaseRemoveChildEvents(IntPtr stub);
 	#region IQuery implementation
 	public event EventHandler<FirebaseChangedEventArgs> ValueUpdated {
 		add {

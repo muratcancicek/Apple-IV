@@ -12,10 +12,10 @@ public class DataManager : MonoBehaviour
         GameGUI view = gameObject.GetComponent<GameGUI>();
         maxRanking = view.rankings.Length;
         firebaseManager = gameObject.GetComponent<FirebaseManager>();
-        loadHighScores();
+        loadHighScoresromMemory();
     }
 
-    private void loadHighScores()
+    private void loadHighScoresromMemory()
     {
         for (int index = 0; index < maxRanking; index++)
         {
@@ -36,7 +36,6 @@ public class DataManager : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-
     }
 
     void OnApplicationQuit()
@@ -76,6 +75,7 @@ public class DataManager : MonoBehaviour
 
     public static string[] getPlayerTexts()
     {
+        rankings = firebaseManager.getOnlineRankings();
         string[] playerTexts = new string[maxRanking];
         for (int ranking = 0; ranking < maxRanking; ranking++)
         {
@@ -113,6 +113,11 @@ public class DataManager : MonoBehaviour
                 return -1;
             else
                 return 0;
+        }
+
+        override public string ToString()
+        {
+            return "(" + name + ", " + score + ")";
         }
     }
 }

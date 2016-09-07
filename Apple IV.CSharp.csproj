@@ -72,6 +72,7 @@
     <Compile Include="Assets\GUI\Scripts\FirebaseManager.cs" />
     <Compile Include="Assets\GUI\Scripts\GUIController.cs" />
     <Compile Include="Assets\GUI\Scripts\GameGUI.cs" />
+    <Compile Include="Assets\GUI\Scripts\HSController.cs" />
     <Compile Include="Assets\GameScane\Scripts\AppleController.cs" />
     <Compile Include="Assets\GameScane\Scripts\Arrow.cs" />
     <Compile Include="Assets\GameScane\Scripts\Controller.cs" />

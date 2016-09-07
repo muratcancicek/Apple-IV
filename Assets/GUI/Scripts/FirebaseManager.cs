@@ -1,56 +1,111 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class FirebaseManager : MonoBehaviour {
 
-    IFirebase firebase;
-    IFirebase highScores;
-    public DataManager.Player[] list;
-    int length = 5;
+    private IFirebase firebase;
+    public static ArrayList rankings = new ArrayList(5);
+    private int length = 5;
+    private int playerNameLength = 15;
 
     // Use this for initialization
     void Start()
     {
         firebase = Firebase.CreateNew("https://apple-iv-dcae4.firebaseio.com/");
-        //firebase.SetJsonValue("{\"HighScore\" : 31}");.SetValue(666)
-        highScores = firebase.Child("HighScores");
 
-        //for (int i = 0; i < 5; i++)
+        //firebase.ChildAdded += (object sender, FirebaseChangedEventArgs e) =>
         //{
-        //    IFirebase child = highScores.Child("" + i);
-        //    child.Child("Name").SetValue("Nobody was here");
-        //    child.Child("Score").SetValue(0f);
-        //}
+        //    Debug.Log("Child added!");
+        //};
 
-        highScores.ChildAdded += (object sender, FirebaseChangedEventArgs e) =>
+        //firebase.ChildRemoved += (object sender, FirebaseChangedEventArgs e) =>
+        //{
+        //    Debug.Log("Child removed!");
+        //};
+
+        firebase.Child("Length").ValueUpdated += (object sender, FirebaseChangedEventArgs args) =>
         {
-            Debug.Log("Child added!");
+            length = int.Parse(args.DataSnapshot.StringValue);
+            Debug.LogError(length);
+            //createTable();
         };
-
-        highScores.ChildRemoved += (object sender, FirebaseChangedEventArgs e) =>
-        {
-            Debug.Log("Child removed!");
-        };
-
-        firebase.ValueUpdated += (object sender, FirebaseChangedEventArgs args) =>
-        {
-            Debug.Log("loading");
-            length = int.Parse(args.DataSnapshot.Child("Length").StringValue);
-            //Debug.Log(args.DataSnapshot.Child("Length").StringValue);
-            Debug.Log(length);
-            //list = new DataManager.Player[length];.Child("" + 3)
-            //for (int i = 0; i < length; i++)
-            //{
-            //    Debug.Log("loading");
-            //    string name = args.DataSnapshot.Child("HighScores").Child(""+i).Child("Name").StringValue;
-            //    int score = int.Parse(args.DataSnapshot.Child("HighScores").Child("" + i).Child("Score").StringValue);
-            //    list[i] = new DataManager.Player(score, name);
-            //    Debug.Log(name);
-
-            //}
-        }; ;
+            readAllPlayers();
     }
 
-    // Update is called once per frame
+    private void createTable()
+    {
+        firebase.Child("HighScores").SetValue("");
+        for (int i = 0; i < length; i++)
+        {
+            string value = encodePlayer("" + i + ". Player", 100 - i * 10);
+            Debug.LogError(value);
+            firebase.Child("HighScores").Child("" + i).SetValue(value);
+        }
+    }
+
+
+    private void updateTable()
+    {
+
+        rankings.Sort();
+        firebase.Child("HighScores").SetValue("");
+        for (int i = 0; i < length; i++)
+        {
+            string value = encodePlayer((DataManager.Player)rankings[i]);
+            Debug.LogError(value);
+            firebase.Child("HighScores").Child("" + i).SetValue(value);
+        }
+    }
+
+    private string encodePlayer(DataManager.Player player)
+    {
+    return encodePlayer(player.name, player.score);
+    }
+
+    private string encodePlayer(string name, int score)
+    {
+        int spaceLength = playerNameLength - name.Length;
+        string space = "";
+        for (int i = 0; i < spaceLength; i++) { space += " "; }
+        return name.Substring(0, name.Length > playerNameLength ? playerNameLength : name.Length) + space + score;
+    }
+
+
+    private DataManager.Player decodePlayer(string value)
+    {
+        string name = value.Substring(0, playerNameLength);
+        int score = int.Parse(value.Substring(playerNameLength, value.Length - playerNameLength));
+        return new DataManager.Player(score, name);
+    }
+
+    private void readAllPlayers()
+    {
+        //rankings = rankings = new ArrayList(length);
+        for (int i = 0; i < length; i++)
+        {
+            readPlayer(i);
+        }
+    }
+
+    private void readPlayer(int index)
+    {
+        //firebase.Child("HighScores").Child("3").ValueUpdated += (object sender, FirebaseChangedEventArgs args) =>
+        firebase.Child("HighScores").Child("" + index).ValueUpdated += (object sender, FirebaseChangedEventArgs args) =>
+        {
+            rankings.Add(decodePlayer(args.DataSnapshot.StringValue));
+            Debug.LogError(rankings[index]);
+            //if (rankings.Count >= length)
+            //{
+            //    updateTable();
+            //}
+        };
+    }
+
+    public ArrayList getOnlineRankings()
+    {
+        rankings.Sort();
+        return rankings;
+    }
     void Update()
     {
 
